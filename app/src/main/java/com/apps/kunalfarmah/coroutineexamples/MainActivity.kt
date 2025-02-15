@@ -237,6 +237,88 @@ fun CoroutineExamples(modifier: Modifier = Modifier) {
         Button(onClick = {
             CoroutineUtils.exceptionInParentSupervisorScopeInsideALaunchBlockLaunchingSeparateSupervisorScopes()
         }) {
+            //coroutineScope.launch{
+            // supervisorScope.launch{}
+            // supervisorScope.launch{}
+            // throw
+            //}
+            Text("exception in parent coroutineScope launching separate supervisor scopes")
+        }
+        Spacer(Modifier.height(10.dp))
+        Button(onClick = {
+            CoroutineUtils.exceptionInParentSupervisorScopeInsideALaunchBlockLaunchingSeparateSupervisorScopes()
+        }) {
+            //coroutineScope.async{
+            // supervisorScope.launch{}
+            // supervisorScope.launch{}
+            // throw
+            //}
+            Text("exception in async parent coroutineScope launching separate supervisor scopes")
+        }
+        Button(onClick = {
+            CoroutineUtils.exceptionInParentSupervisorScopeInsideALaunchBlockLaunchingSeparateSupervisorScopes()
+        }) {
+            //coroutineScope.launch{
+            // supervisorScope.async{}
+            // supervisorScope.async{//throw}
+            // throw
+            //}
+            Text("exception in parent coroutineScope with separate async supervisor scopes")
+        }
+        Button(onClick = {
+            CoroutineUtils.exceptionInParentSupervisorScopeInsideALaunchBlockLaunchingSeparateSupervisorScopes()
+        }) {
+            //coroutineScope.async{
+            // supervisorScope.async{}
+            // supervisorScope.async{}
+            // throw
+            //}
+            Text("exception in parent async coroutineScope with separate async supervisor scopes")
+        }
+        Spacer(Modifier.height(10.dp))
+        Button(onClick = {
+            CoroutineUtils.exceptionInChildSupervisorScopeLaunchedInsideALaunchedSupervisorScope()
+        }) {
+            //coroutineScope.launch{
+            // supervisorScope.launch{}
+            // supervisorScope.launch{//throw}
+            //}
+            Text("exception in child supervisorScope launched inside a launched coroutineScope")
+        }
+        Spacer(Modifier.height(10.dp))
+        Button(onClick = {
+            CoroutineUtils.exceptionInAsyncChildSupervisorScopeLaunchedInsideALaunchedSupervisorScope()
+        }) {
+            //coroutineScope.launch{
+            // supervisorScope.async{}
+            // supervisorScope.async{// throw}
+            //}
+            Text("exception in async child supervisorScope inside a launched coroutineScope")
+        }
+        Spacer(Modifier.height(10.dp))
+        Button(onClick = {
+            CoroutineUtils.exceptionInChildSupervisorScopeLaunchedInsideAnAsyncSupervisorScope()
+        }) {
+            //coroutineScope.async{
+            // supervisorScope.launch{}
+            // supervisorScope.launch{// throw}
+            //}
+            Text("exception in child supervisorScope launched inside an async coroutineScope")
+        }
+        Spacer(Modifier.height(10.dp))
+        Button(onClick = {
+            CoroutineUtils.exceptionInAsyncChildSupervisorScopeLaunchedInsideAnAsyncSupervisorScope()
+        }) {
+            //coroutineScope.async{
+            // supervisorScope.async{}
+            // supervisorScope.async{// throw}
+            //}
+            Text("exception in async child supervisorScope inside an async coroutineScope")
+        }
+        Spacer(Modifier.height(10.dp))
+        Button(onClick = {
+            CoroutineUtils.exceptionInParentSupervisorScopeInsideALaunchBlockLaunchingSeparateSupervisorScopes()
+        }) {
             //superVisorScope.launch{
                // supervisorScope.launch{}
                // supervisorScope.launch{}
