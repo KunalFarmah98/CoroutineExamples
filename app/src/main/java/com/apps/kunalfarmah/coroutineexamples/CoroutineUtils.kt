@@ -21,6 +21,8 @@ object CoroutineUtils {
         Log.d("CoroutineUtils exceptionHandler", "exception ${throwable.javaClass.name} in ${coroutineContext[CoroutineName]?.name} running a ${coroutineContext[Job].toString()}  , ${throwable.message}")
     }
 
+    val customSupervisorScope = CoroutineScope(SupervisorJob() +  Dispatchers.Default + exceptionHandler + CoroutineName("supervisorJob"))
+
     fun launch(){
        CoroutineScope(Dispatchers.Main + exceptionHandler + CoroutineName("launch")).launch {
            Log.d("CoroutineUtils launch","started")
@@ -1269,6 +1271,38 @@ object CoroutineUtils {
     }
 
     fun exceptionInCoroutineScopeWithSupervisorJobAsContextAsChildInAsync() {
+    }
+
+    fun exceptionInParentCoroutineScopeBlockLaunchingSeparateSupervisorScopes() {
+        TODO("Not yet implemented")
+    }
+
+    fun exceptionInParentAsyncCoroutineScopeLaunchingSeparateSupervisorScopes() {
+        TODO("Not yet implemented")
+    }
+
+    fun exceptionInParentCoroutineScopeWithSeparateAsyncSupervisorScopes() {
+        TODO("Not yet implemented")
+    }
+
+    fun exceptionInAsyncParentCoroutineScopeWithSeparateAsyncSupervisorScopes() {
+        TODO("Not yet implemented")
+    }
+
+    fun exceptionInChildSupervisorScopeLaunchedInsideALaunchedCoroutineScope() {
+        TODO("Not yet implemented")
+    }
+
+    fun exceptionInAsyncChildSupervisorScopeInsideALaunchedCoroutineScope() {
+        TODO("Not yet implemented")
+    }
+
+    fun exceptionInChildSupervisorScopeLaunchedInsideAnAsyncCoroutineScope() {
+        TODO("Not yet implemented")
+    }
+
+    fun exceptionInAsyncChildSupervisorScopeLaunchedInsideAnAsyncCoroutineScope() {
+        TODO("Not yet implemented")
     }
 
 
