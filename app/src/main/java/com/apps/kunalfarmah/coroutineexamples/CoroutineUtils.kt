@@ -23,6 +23,33 @@ object CoroutineUtils {
 
     val customSupervisorScope = CoroutineScope(SupervisorJob() +  Dispatchers.Default + exceptionHandler + CoroutineName("supervisorJob"))
 
+    fun customSupervisorScopeLaunch(){
+        customSupervisorScope.launch {
+
+        }
+    }
+    suspend fun customSupervisorScopeAsync(){
+        customSupervisorScope.async {
+
+        }
+    }
+
+    suspend fun supervisorScopeLaunch(){
+        supervisorScope {
+            launch {
+
+            }
+        }
+    }
+
+    suspend fun supervisorScopeAsync(){
+        val res = supervisorScope {
+            async{
+
+            }
+        }
+    }
+
     fun launch(){
        CoroutineScope(Dispatchers.Main + exceptionHandler + CoroutineName("launch")).launch {
            Log.d("CoroutineUtils launch","started")
@@ -537,8 +564,7 @@ object CoroutineUtils {
     }
 
     // if the parent throws exception, all children will be cancelled even if the parent is a supervisor job
-    // please note that  CoroutineScope(SupervisorJob() + Dispatchers.Main + exceptionHandler + CoroutineName("launch")) DOES not launch the
-    // coroutine in the supervisor scope
+    // please note that  CoroutineScope(SupervisorJob() + Dispatchers.Main + exceptionHandler + CoroutineName("launch")) will still propagate error upwards
     fun exceptionInSupervisorScopeAsAsyncParentLaunchingChildren() {
         // exception will be caught by the exceptionHandler
         val res = CoroutineScope(SupervisorJob() + Dispatchers.Main + exceptionHandler + CoroutineName("launch")).async {
@@ -1245,6 +1271,46 @@ object CoroutineUtils {
     }
 
     fun exceptionInChildSupervisorScopeLaunchedInsideALaunchedSupervisorScope() {
+        /**
+         * customSupervisorScope.launch{
+         *     launch{}
+         *     launch{throw}
+         * }
+         *
+         *
+         *  customSupervisorScope.launch{
+         *      launch{}
+         *      launch{try{throw}catch{}}
+         *   }
+         *
+         *  customSupervisorScope.launch{
+         *      customSupervisorScope.launch{}
+         *      customSupervisorScope.launch{throw}
+         *   }
+         *
+         *  customSupervisorScope.launch{
+         *      customSupervisorScope.launch{}
+         *      customSupervisorScope.launch{try{throw}catch{}}
+         *   }
+         *
+         *   launch{
+         *      supervisorScope{
+         *          supervisorScope{
+         *              launch{}
+         *          }
+         *          supervisorScope{
+         *              launch{throw}
+         *          }
+         *      }
+         *   }
+         *
+         *   launch{
+         *      supervisorScope{
+         *          launch{}
+         *          launch{throw}
+         *      }
+         *   }
+         */
         TODO("Not yet implemented")
     }
 
