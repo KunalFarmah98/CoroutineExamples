@@ -514,6 +514,7 @@ fun CoroutineExamples(modifier: Modifier = Modifier) {
 
         Text(modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center, text = "exception in child supervisorScope launched in a launched coroutineScope")
 
+        Spacer(Modifier.height(20.dp))
         Spacer(Modifier.height(10.dp))
         Button(modifier = Modifier
             .fillMaxWidth()
@@ -566,10 +567,64 @@ fun CoroutineExamples(modifier: Modifier = Modifier) {
         }) {
             Text(modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center, text = "case 6: separate supervisorScope.launch with exception inside 1 supervisorScope")
         }
-
-        Spacer(Modifier.height(20.dp))
-        Text(modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center, text = "exception in async child supervisorScope in a launched coroutineScope")
         Spacer(Modifier.height(10.dp))
+
+
+        Text(modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center, text = "exception in async child supervisorScope in a launched coroutineScope")
+
+        Spacer(Modifier.height(10.dp))
+        Button(modifier = Modifier
+            .fillMaxWidth()
+            .size(80.dp), onClick  = {
+            CoroutineUtils.exceptionInAsyncChildSupervisorScopeLaunchedInsideALaunchedCoroutineScope0()
+        }) {
+            Text(modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center, text = "case 1: separate customSupervisorScope.async with exception")
+        }
+        Spacer(Modifier.height(10.dp))
+
+        Button(modifier = Modifier
+            .fillMaxWidth()
+            .size(80.dp), onClick  = {
+            CoroutineUtils.exceptionInAsyncChildSupervisorScopeLaunchedInsideALaunchedCoroutineScope1()
+        }) {
+            Text(modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center, text = "case 2: separate async with exception in customSupervisorScope.async")
+        }
+        Spacer(Modifier.height(10.dp))
+
+        Button(modifier = Modifier
+            .fillMaxWidth()
+            .size(80.dp), onClick  = {
+            CoroutineUtils.exceptionInAsyncChildSupervisorScopeLaunchedInsideALaunchedCoroutineScope2()
+        }) {
+            Text(modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center, text = "case 3: separate customSupervisorScope.async with exception inside 1 customSupervisorScope.async")
+        }
+        Spacer(Modifier.height(10.dp))
+
+        Button(modifier = Modifier
+            .fillMaxWidth()
+            .size(80.dp), onClick  = {
+            CoroutineUtils.exceptionInAsyncChildSupervisorScopeLaunchedInsideALaunchedCoroutineScope3()
+        }) {
+            Text(modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center, text = "case 4: separate async with exception inside 1 supervisorScope")
+        }
+        Spacer(Modifier.height(10.dp))
+
+        Button(modifier = Modifier
+            .fillMaxWidth()
+            .size(80.dp), onClick  = {
+            CoroutineUtils.exceptionInAsyncChildSupervisorScopeLaunchedInsideALaunchedCoroutineScope4()
+        }) {
+            Text(modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center, text = "case 5: separate supervisorScope.async with exception")
+        }
+        Spacer(Modifier.height(10.dp))
+        Button(modifier = Modifier
+            .fillMaxWidth()
+            .size(80.dp), onClick  = {
+            CoroutineUtils.exceptionInAsyncChildSupervisorScopeLaunchedInsideALaunchedCoroutineScope5()
+        }) {
+            Text(modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center, text = "case 6: separate supervisorScope.async with exception inside 1 supervisorScope")
+        }
+
         Button(modifier = Modifier
             .fillMaxWidth()
             .size(80.dp), onClick  = {

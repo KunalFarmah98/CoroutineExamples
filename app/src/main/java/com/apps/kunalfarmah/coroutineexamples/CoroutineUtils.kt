@@ -6,6 +6,7 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.async
@@ -15,6 +16,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.supervisorScope
 
+@OptIn(ExperimentalCoroutinesApi::class)
 object CoroutineUtils {
 
     val exceptionHandler = CoroutineExceptionHandler { coroutineContext, throwable ->
@@ -3164,6 +3166,648 @@ object CoroutineUtils {
                     }
                 }
             }
+            Log.d(
+                "CoroutineUtils exceptionInParentCoroutineScopeBlockLaunchingSeparateSupervisorScopes",
+                "supervisorScope with supervisorScope.launch blocks finished"
+            )
+        }.invokeOnCompletion {
+            if(it!=null){
+                Log.d(
+                    "CoroutineUtils case 6",
+                    "launch cancelled ${it.message}"
+                )
+            }
+        }
+    }
+
+
+    // As we are launching separate supervisor scopes, they will not be affected by the parent coroutine crashing as they are not inheriting the parent coroutine context
+    // but a supervisorJob
+    fun exceptionInAsyncChildSupervisorScopeLaunchedInsideALaunchedCoroutineScope0() {
+        CoroutineScope(Dispatchers.Default + exceptionHandler + CoroutineName("launch")).launch {
+            Log.d(
+                "CoroutineUtils case 1",
+                "launch with separate customSupervisorScope.launch blocks started in ${coroutineContext[Job].toString()} with parent ${coroutineContext[Job]?.parent} "
+            )
+            delay(2000)
+            val child1 = customSupervisorScope.async(CoroutineName("child 1")) {
+                Log.d(
+                    "CoroutineUtils case 1",
+                    "child 1 started in ${coroutineContext[Job].toString()} with parent ${coroutineContext[Job]?.parent} "
+                )
+                delay(2000)
+                Log.d(
+                    "CoroutineUtils case 1",
+                    "child 1 finished"
+                )
+            }
+            val child2 = customSupervisorScope.async(CoroutineName("child 2")) {
+                Log.d(
+                    "CoroutineUtils case 1",
+                    "child 2 started in ${coroutineContext[Job].toString()} with parent ${coroutineContext[Job]?.parent} "
+                )
+                // will only cancel child 2 as the children now inherit a supervisorJob
+                delay(5000)
+                throw IllegalStateException("child2 crashed :(")
+                Log.d(
+                    "CoroutineUtils case 1",
+                    "child 2 finished"
+                )
+            }
+            val child3 = customSupervisorScope.async(CoroutineName("child 3")) {
+                Log.d(
+                    "CoroutineUtils case 1",
+                    "child 3 started in ${coroutineContext[Job].toString()} with parent ${coroutineContext[Job]?.parent} "
+                )
+                delay(6000)
+                Log.d(
+                    "CoroutineUtils case 1",
+                    "child 3 finished"
+                )
+            }
+            child1.invokeOnCompletion { e1 ->
+                if (e1 == null) {
+                    Log.d(
+                        "CoroutineUtils case 1",
+                        "child 1 completed"
+                    )
+                } else {
+                    Log.d(
+                        "CoroutineUtils case 1",
+                        "child 1 cancelled ${e1.message}"
+                    )
+                }
+            }
+            child2.invokeOnCompletion { e2 ->
+                if (e2 == null) {
+                    Log.d(
+                        "CoroutineUtils case 1",
+                        "child 2 completed"
+                    )
+                } else {
+                    Log.d(
+                        "CoroutineUtils case 1",
+                        "child 2 cancelled ${e2.message}"
+                    )
+                }
+            }
+            child3.invokeOnCompletion { e3 ->
+                if (e3 == null) {
+                    Log.d(
+                        "CoroutineUtils case 1",
+                        "child 3 completed"
+                    )
+                } else {
+                    Log.d(
+                        "CoroutineUtils case 1",
+                        "child 3 cancelled ${e3.message}"
+                    )
+                }
+            }
+            // uncomment to catch exception, parent will get cancelled but child 3 will complete
+            // child2.await()
+            delay(9000)
+            Log.d(
+                "CoroutineUtils case 1",
+                "launch with separate customSupervisorScope.launch blocks finished"
+            )
+        }.invokeOnCompletion {
+            if(it!=null){
+                Log.d(
+                    "CoroutineUtils case 1",
+                    "launch cancelled ${it.message}"
+                )
+            }
+        }
+    }
+
+    // As we launched a separate supervisor scope, its parent is no longer the parent coroutine but a supervisorJob
+    // but its children are still inheriting standalone job
+    fun exceptionInAsyncChildSupervisorScopeLaunchedInsideALaunchedCoroutineScope1() {
+        CoroutineScope(Dispatchers.Default + exceptionHandler + CoroutineName("launch")).launch {
+            Log.d(
+                "CoroutineUtils case 2",
+                "launch with customSupervisorScope.launch started in ${coroutineContext[Job].toString()} with parent ${coroutineContext[Job]?.parent} "
+            )
+            // this block will have supervisorJob
+            val job = customSupervisorScope.async {
+                Log.d(
+                    "CoroutineUtils case 2",
+                    "customSupervisorScope with launch blocks started in ${coroutineContext[Job].toString()} with parent ${coroutineContext[Job]?.parent} "
+                )
+                delay(2000)
+                // these will still be standalone job
+                val child1 = async(CoroutineName("child 1")) {
+                    Log.d(
+                        "CoroutineUtils case 2",
+                        "child 1 started in ${coroutineContext[Job].toString()} with parent ${coroutineContext[Job]?.parent} "
+                    )
+                    delay(2000)
+                    Log.d(
+                        "CoroutineUtils case 2",
+                        "child 1 finished"
+                    )
+                }
+                val child2 = async(CoroutineName("child 2")) {
+                    Log.d(
+                        "CoroutineUtils case 2",
+                        "child 2 started in ${coroutineContext[Job].toString()} with parent ${coroutineContext[Job]?.parent} "
+                    )
+                    delay(5000)
+                    // this will cancel child 2 and 3 as they are still inheriting the parent coroutine context
+                    throw IllegalStateException("child2 crashed :(")
+                    Log.d(
+                        "CoroutineUtils case 2",
+                        "child 2 finished"
+                    )
+                }
+                val child3 = async(CoroutineName("child 3")) {
+                    Log.d(
+                        "CoroutineUtils case 2",
+                        "child 3 started in ${coroutineContext[Job].toString()} with parent ${coroutineContext[Job]?.parent} "
+                    )
+                    delay(6000)
+                    Log.d(
+                        "CoroutineUtils case 2",
+                        "child 3 finished"
+                    )
+                }
+                child1.invokeOnCompletion { e1 ->
+                    if (e1 == null) {
+                        Log.d(
+                            "CoroutineUtils case 2",
+                            "child 1 completed"
+                        )
+                    } else {
+                        Log.d(
+                            "CoroutineUtils case 2",
+                            "child 1 cancelled ${e1.message}"
+                        )
+                    }
+                }
+                child2.invokeOnCompletion { e2 ->
+                    if (e2 == null) {
+                        Log.d(
+                            "CoroutineUtils case 2",
+                            "child 2 completed"
+                        )
+                    } else {
+                        Log.d(
+                            "CoroutineUtils case 2",
+                            "child 2 cancelled ${e2.message}"
+                        )
+                    }
+                }
+                child3.invokeOnCompletion { e3 ->
+                    if (e3 == null) {
+                        Log.d(
+                            "CoroutineUtils case 2",
+                            "child 3 completed"
+                        )
+                    } else {
+                        Log.d(
+                            "CoroutineUtils case 2",
+                            "child 3 cancelled ${e3.message}"
+                        )
+                    }
+                }
+                 // this will have no affect as the children as cancelled
+                 // child2.await()
+            }
+            delay(9000)
+            Log.d(
+                "CoroutineUtils case 2",
+                "customSupervisorScope with launch blocks finished"
+            )
+        }.invokeOnCompletion {
+            if(it!=null){
+                Log.d(
+                    "CoroutineUtils case 2",
+                    "launch cancelled ${it.message}"
+                )
+            }
+        }
+    }
+
+    fun exceptionInAsyncChildSupervisorScopeLaunchedInsideALaunchedCoroutineScope2() {
+        CoroutineScope(Dispatchers.Default + exceptionHandler + CoroutineName("launch")).launch {
+            Log.d(
+                "CoroutineUtils case 3",
+                "launch with customSupervisorScope.launch launching separate customSupervisorScopes started in ${coroutineContext[Job].toString()} with parent ${coroutineContext[Job]?.parent} "
+            )
+            val job = customSupervisorScope.async {
+                Log.d(
+                    "CoroutineUtils case 3",
+                    "customSupervisorScope with customSupervisorScope.launch blocks started in ${coroutineContext[Job].toString()} with parent ${coroutineContext[Job]?.parent} "
+                )
+                delay(2000)
+                val child1 = customSupervisorScope.async(CoroutineName("child 1")) {
+                    Log.d(
+                        "CoroutineUtils case 3",
+                        "child 1 started in ${coroutineContext[Job].toString()} with parent ${coroutineContext[Job]?.parent} "
+                    )
+                    delay(2000)
+                    Log.d(
+                        "CoroutineUtils case 3",
+                        "child 1 finished"
+                    )
+                }
+                val child2 = customSupervisorScope.async(CoroutineName("child 2")) {
+                    Log.d(
+                        "CoroutineUtils case 3",
+                        "child 2 started in ${coroutineContext[Job].toString()} with parent ${coroutineContext[Job]?.parent} "
+                    )
+                    delay(5000)
+                    // this will only cancel child 2 as the children themselves run in a supervisorJob
+                    // but the exception will crash the launch block as customSupervisorScope does not stop exception propagation
+                    throw IllegalStateException("child2 crashed :(")
+                    Log.d(
+                        "CoroutineUtils case 3",
+                        "child 2 finished"
+                    )
+                }
+                val child3 = customSupervisorScope.async(CoroutineName("child 3")) {
+                    Log.d(
+                        "CoroutineUtils case 3",
+                        "child 3 started in ${coroutineContext[Job].toString()} with parent ${coroutineContext[Job]?.parent} "
+                    )
+                    delay(6000)
+                    Log.d(
+                        "CoroutineUtils case 3",
+                        "child 3 finished"
+                    )
+                }
+                child1.invokeOnCompletion { e1 ->
+                    if (e1 == null) {
+                        Log.d(
+                            "CoroutineUtils case 3",
+                            "child 1 completed"
+                        )
+                    } else {
+                        Log.d(
+                            "CoroutineUtils case 3",
+                            "child 1 cancelled ${e1.message}"
+                        )
+                    }
+                }
+                child2.invokeOnCompletion { e2 ->
+                    if (e2 == null) {
+                        Log.d(
+                            "CoroutineUtils case 3",
+                            "child 2 completed"
+                        )
+                    } else {
+                        Log.d(
+                            "CoroutineUtils case 3",
+                            "child 2 cancelled ${e2.message}"
+                        )
+                    }
+                }
+                child3.invokeOnCompletion { e3 ->
+                    if (e3 == null) {
+                        Log.d(
+                            "CoroutineUtils case 3",
+                            "child 3 completed"
+                        )
+                    } else {
+                        Log.d(
+                            "CoroutineUtils case 3",
+                            "child 3 cancelled ${e3.message}"
+                        )
+                    }
+                }
+                // uncomment to catch exception
+                // child2.await()
+            }
+            // uncomment to catch exception, child 3 will also get cancelled as parent will get cancelled
+            // child2.await()
+            delay(10000)
+            Log.d(
+                "CoroutineUtils exceptionInParentCoroutineScopeBlockLaunchingSeparateSupervisorScopes2",
+                "customSupervisorScope with customSupervisorScope.launch blocks finished"
+            )
+        }.invokeOnCompletion {
+            if(it!=null){
+                Log.d(
+                    "CoroutineUtils case 3",
+                    "launch cancelled ${it.message}"
+                )
+            }
+        }
+    }
+
+    // supervisorScope suspends the block and waits for children to complete
+    fun exceptionInAsyncChildSupervisorScopeLaunchedInsideALaunchedCoroutineScope3() {
+        CoroutineScope(Dispatchers.Default + exceptionHandler + CoroutineName("launch")).launch {
+            Log.d(
+                "CoroutineUtils case 4",
+                "launch with supervisorScope started in ${coroutineContext[Job].toString()} with parent ${coroutineContext[Job]?.parent} "
+            )
+            supervisorScope {
+                Log.d(
+                    "CoroutineUtils case 4",
+                    "supervisorScope with launch blocks started in ${coroutineContext[Job].toString()} with parent ${coroutineContext[Job]?.parent} "
+                )
+                delay(2000)
+                val child1 = async(CoroutineName("child 1")) {
+                    Log.d(
+                        "CoroutineUtils case 4",
+                        "child 1 started in ${coroutineContext[Job].toString()} with parent ${coroutineContext[Job]?.parent} "
+                    )
+                    delay(2000)
+                    Log.d(
+                        "CoroutineUtils case 4",
+                        "child 1 finished"
+                    )
+                }
+                val child2 = async(CoroutineName("child 2")) {
+                    Log.d(
+                        "CoroutineUtils case 4",
+                        "child 2 started in ${coroutineContext[Job].toString()} with parent ${coroutineContext[Job]?.parent} "
+                    )
+                    delay(5000)
+                    // this will only cancel child 2 as the children themselves run in a supervisorJob
+                    throw IllegalStateException("child2 crashed :(")
+                    Log.d(
+                        "CoroutineUtils case 4",
+                        "child 2 finished"
+                    )
+                }
+                val child3 = async(CoroutineName("child 3")) {
+                    Log.d(
+                        "CoroutineUtils case 4",
+                        "child 3 started in ${coroutineContext[Job].toString()} with parent ${coroutineContext[Job]?.parent} "
+                    )
+                    delay(6000)
+                    Log.d(
+                        "CoroutineUtils case 4",
+                        "child 3 finished"
+                    )
+                }
+                child1.invokeOnCompletion { e1 ->
+                    if (e1 == null) {
+                        Log.d(
+                            "CoroutineUtils case 4",
+                            "child 1 completed"
+                        )
+                    } else {
+                        Log.d(
+                            "CoroutineUtils case 4",
+                            "child 1 cancelled ${e1.message}"
+                        )
+                    }
+                }
+                child2.invokeOnCompletion { e2 ->
+                    if (e2 == null) {
+                        Log.d(
+                            "CoroutineUtils case 4",
+                            "child 2 completed"
+                        )
+                    } else {
+                        Log.d(
+                            "CoroutineUtils case 4",
+                            "child 2 cancelled ${e2.message}"
+                        )
+                    }
+                }
+                child3.invokeOnCompletion { e3 ->
+                    if (e3 == null) {
+                        Log.d(
+                            "CoroutineUtils case 4",
+                            "child 3 completed"
+                        )
+                    } else {
+                        Log.d(
+                            "CoroutineUtils case 4",
+                            "child 3 cancelled ${e3.message}"
+                        )
+                    }
+                }
+                // uncomment to catch exception, child 3 will also get cancelled as parent will get cancelled
+                // child2.await()
+            }
+
+            Log.d(
+                "CoroutineUtils case 4",
+                "supervisorScope with launch blocks finished"
+            )
+        }.invokeOnCompletion {
+            if(it!=null){
+                Log.d(
+                    "CoroutineUtils case 4",
+                    "launch cancelled ${it.message}"
+                )
+            }
+        }
+    }
+
+    // this will run the code sequentially as supervisorScope is a suspending function
+    fun exceptionInAsyncChildSupervisorScopeLaunchedInsideALaunchedCoroutineScope4() {
+        CoroutineScope(Dispatchers.Default + exceptionHandler + CoroutineName("launch")).launch {
+            Log.d(
+                "CoroutineUtils case 5",
+                "launch with supervisorScope.launch blocks started in ${coroutineContext[Job].toString()} with parent ${coroutineContext[Job]?.parent} "
+            )
+            delay(2000)
+            // this suspends the launch block
+            val child1 = supervisorScope {
+                async(CoroutineName("child 1")) {
+                    Log.d(
+                        "CoroutineUtils case 5",
+                        "child 1 started in ${coroutineContext[Job].toString()} with parent ${coroutineContext[Job]?.parent} "
+                    )
+                    delay(2000)
+                    Log.d(
+                        "CoroutineUtils case 5",
+                        "child 1 finished"
+                    )
+                }
+            }
+            // this suspends the launch block
+            val child2 = supervisorScope {
+                async(CoroutineName("child 2")) {
+                    Log.d(
+                        "CoroutineUtils case 5",
+                        "child 2 started in ${coroutineContext[Job].toString()} with parent ${coroutineContext[Job]?.parent} "
+                    )
+                    // this will only cancel child 2 as the children inherit a supervisorJob
+                    delay(5000)
+                    throw IllegalStateException("child2 crashed :(")
+                    Log.d(
+                        "CoroutineUtils case 5",
+                        "child 2 finished"
+                    )
+                }
+            }
+            // this suspends the launch block
+            val child3 = supervisorScope {
+                async(CoroutineName("child 3")) {
+                    Log.d(
+                        "CoroutineUtils case 5",
+                        "child 3 started in ${coroutineContext[Job].toString()} with parent ${coroutineContext[Job]?.parent} "
+                    )
+                    delay(6000)
+                    Log.d(
+                        "CoroutineUtils case 5",
+                        "child 3 finished"
+                    )
+                }
+            }
+            child1.invokeOnCompletion { e1 ->
+                if (e1 == null) {
+                    Log.d(
+                        "CoroutineUtils case 5",
+                        "child 1 completed"
+                    )
+                } else {
+                    Log.d(
+                        "CoroutineUtils case 5",
+                        "child 1 cancelled ${e1.message}"
+                    )
+                }
+            }
+            child2.invokeOnCompletion { e2 ->
+                if (e2 == null) {
+                    Log.d(
+                        "CoroutineUtils case 5",
+                        "child 2 completed"
+                    )
+                } else {
+                    Log.d(
+                        "CoroutineUtils case 5",
+                        "child 2 cancelled ${e2.message}"
+                    )
+                }
+            }
+            child3.invokeOnCompletion { e3 ->
+                if (e3 == null) {
+                    Log.d(
+                        "CoroutineUtils case 5",
+                        "child 3 completed"
+                    )
+                } else {
+                    Log.d(
+                        "CoroutineUtils case 5",
+                        "child 3 cancelled ${e3.message}"
+                    )
+                }
+            }
+            // uncomment to catch exception, parent will get cancelled
+            // child2.await()
+            Log.d(
+                "CoroutineUtils case 5",
+                "launch with supervisorScope.launch blocks finished"
+            )
+        }.invokeOnCompletion {
+            if(it!=null){
+                Log.d(
+                    "CoroutineUtils case 5",
+                    "launch cancelled ${it.message}"
+                )
+            }
+        }
+    }
+
+    // this will run the each block sequentially as supervisorScope is a suspending function
+
+    fun exceptionInAsyncChildSupervisorScopeLaunchedInsideALaunchedCoroutineScope5() {
+        CoroutineScope(Dispatchers.Default + exceptionHandler + CoroutineName("launch")).launch {
+            Log.d(
+                "CoroutineUtils case 6",
+                "launch with nested supervisorScope blocks started in ${coroutineContext[Job].toString()} with parent ${coroutineContext[Job]?.parent} "
+            )
+            supervisorScope {
+                Log.d(
+                    "CoroutineUtils case 6",
+                    "supervisorScope with supervisorScope.launch blocks started in ${coroutineContext[Job].toString()} with parent ${coroutineContext[Job]?.parent} "
+                )
+                delay(2000)
+                val child1 = supervisorScope {
+                    async(CoroutineName("child 1")) {
+                        Log.d(
+                            "CoroutineUtils case 6",
+                            "child 1 started in ${coroutineContext[Job].toString()} with parent ${coroutineContext[Job]?.parent} "
+                        )
+                        delay(2000)
+                        Log.d(
+                            "CoroutineUtils case 6",
+                            "child 1 finished"
+                        )
+                    }
+                }
+                val child2 = supervisorScope {
+                    async(CoroutineName("child 2")) {
+                        Log.d(
+                            "CoroutineUtils case 6",
+                            "child 2 started in ${coroutineContext[Job].toString()} with parent ${coroutineContext[Job]?.parent} "
+                        )
+                        delay(5000)
+                        // this will only cancel child 2 as the children themselves run in a supervisorJob
+                        throw IllegalStateException("child2 crashed :(")
+                        Log.d(
+                            "CoroutineUtils case 6",
+                            "child 2 finished"
+                        )
+                    }
+                }
+                val child3 = supervisorScope {
+                    async(CoroutineName("child 3")) {
+                        Log.d(
+                            "CoroutineUtils case 6",
+                            "child 3 started in ${coroutineContext[Job].toString()} with parent ${coroutineContext[Job]?.parent} "
+                        )
+                        delay(6000)
+                        Log.d(
+                            "CoroutineUtils case 6",
+                            "child 3 finished"
+                        )
+                    }
+                }
+
+
+                child1.invokeOnCompletion { e1 ->
+                    if (e1 == null) {
+                        Log.d(
+                            "CoroutineUtils case 6",
+                            "child 1 completed"
+                        )
+                    } else {
+                        Log.d(
+                            "CoroutineUtils case 6",
+                            "child 1 cancelled ${e1.message}"
+                        )
+                    }
+                }
+                child2.invokeOnCompletion { e2 ->
+                    if (e2 == null) {
+                        Log.d(
+                            "CoroutineUtils case 6",
+                            "child 2 completed"
+                        )
+                    } else {
+                        Log.d(
+                            "CoroutineUtils case 6",
+                            "child 2 cancelled ${e2.message}"
+                        )
+                    }
+                }
+                child3.invokeOnCompletion { e3 ->
+                    if (e3 == null) {
+                        Log.d(
+                            "CoroutineUtils case 6",
+                            "child 3 completed"
+                        )
+                    } else {
+                        Log.d(
+                            "CoroutineUtils case 6",
+                            "child 3 cancelled ${e3.message}"
+                        )
+                    }
+                }
+                // uncomment to catch exception, parent will get cancelled
+                // child2.await()
+            }
+
             Log.d(
                 "CoroutineUtils exceptionInParentCoroutineScopeBlockLaunchingSeparateSupervisorScopes",
                 "supervisorScope with supervisorScope.launch blocks finished"
