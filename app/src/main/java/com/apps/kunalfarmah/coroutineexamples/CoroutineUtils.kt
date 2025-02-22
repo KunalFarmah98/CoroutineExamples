@@ -1518,7 +1518,7 @@ object CoroutineUtils {
             // this will have no effect on children as they have a different parent
             throw IllegalStateException("parent crashed :(")
             Log.d(
-                "CoroutineUtils exceptionInParentCoroutineScopeBlockLaunchingSeparateSupervisorScopes2",
+                "CoroutineUtils case 3",
                 "customSupervisorScope with customSupervisorScope.launch blocks finished"
             )
         }
@@ -1816,7 +1816,7 @@ object CoroutineUtils {
             // this will have no effect as the block is suspended till now
             throw IllegalStateException("parent crashed :(")
             Log.d(
-                "CoroutineUtils exceptionInParentCoroutineScopeBlockLaunchingSeparateSupervisorScopes",
+                "CoroutineUtils case 6",
                 "supervisorScope with supervisorScope.launch blocks finished"
             )
         }
@@ -2110,7 +2110,7 @@ object CoroutineUtils {
             // this will have no effect on children as they have a different parent
             throw IllegalStateException("parent crashed :(")
             Log.d(
-                "CoroutineUtils exceptionInParentCoroutineScopeBlockLaunchingSeparateSupervisorScopes2",
+                "CoroutineUtils case 3",
                 "customSupervisorScope with customSupervisorScope.launch blocks finished"
             )
         }
@@ -2419,7 +2419,7 @@ object CoroutineUtils {
             // this will have no effect as the block is suspended till now
             throw IllegalStateException("parent crashed :(")
             Log.d(
-                "CoroutineUtils exceptionInParentCoroutineScopeBlockLaunchingSeparateSupervisorScopes",
+                "CoroutineUtils case 6",
                 "supervisorScope with supervisorScope.launch blocks finished"
             )
         }
@@ -2725,7 +2725,7 @@ object CoroutineUtils {
             }
             delay(10000)
             Log.d(
-                "CoroutineUtils exceptionInParentCoroutineScopeBlockLaunchingSeparateSupervisorScopes2",
+                "CoroutineUtils case 3",
                 "customSupervisorScope with customSupervisorScope.launch blocks finished"
             )
         }.invokeOnCompletion {
@@ -3094,7 +3094,7 @@ object CoroutineUtils {
                 }
             }
             Log.d(
-                "CoroutineUtils exceptionInParentCoroutineScopeBlockLaunchingSeparateSupervisorScopes",
+                "CoroutineUtils case 6",
                 "supervisorScope with supervisorScope.launch blocks finished"
             )
         }.invokeOnCompletion {
@@ -3410,7 +3410,7 @@ object CoroutineUtils {
             // child2.await()
             delay(10000)
             Log.d(
-                "CoroutineUtils exceptionInParentCoroutineScopeBlockLaunchingSeparateSupervisorScopes2",
+                "CoroutineUtils case 3",
                 "customSupervisorScope with customSupervisorScope.launch blocks finished"
             )
         }.invokeOnCompletion {
@@ -3736,7 +3736,7 @@ object CoroutineUtils {
             }
 
             Log.d(
-                "CoroutineUtils exceptionInParentCoroutineScopeBlockLaunchingSeparateSupervisorScopes",
+                "CoroutineUtils case 6",
                 "supervisorScope with supervisorScope.launch blocks finished"
             )
         }.invokeOnCompletion {
@@ -4045,7 +4045,7 @@ object CoroutineUtils {
             }
             delay(10000)
             Log.d(
-                "CoroutineUtils exceptionInParentCoroutineScopeBlockLaunchingSeparateSupervisorScopes2",
+                "CoroutineUtils case 3",
                 "customSupervisorScope with customSupervisorScope.async blocks finished"
             )
         }.invokeOnCompletion {
@@ -4414,7 +4414,7 @@ object CoroutineUtils {
                 }
             }
             Log.d(
-                "CoroutineUtils exceptionInParentCoroutineScopeBlockLaunchingSeparateSupervisorScopes",
+                "CoroutineUtils case 6",
                 "supervisorScope with supervisorScope.async blocks finished"
             )
         }.invokeOnCompletion {
@@ -4731,7 +4731,7 @@ object CoroutineUtils {
             // child2.await()
             delay(10000)
             Log.d(
-                "CoroutineUtils exceptionInParentCoroutineScopeBlockLaunchingSeparateSupervisorScopes2",
+                "CoroutineUtils case 3",
                 "customSupervisorScope with customSupervisorScope.async blocks finished"
             )
         }.invokeOnCompletion {
@@ -5057,7 +5057,7 @@ object CoroutineUtils {
             }
 
             Log.d(
-                "CoroutineUtils exceptionInParentCoroutineScopeBlockLaunchingSeparateSupervisorScopes",
+                "CoroutineUtils case 6",
                 "supervisorScope with supervisorScope.launch blocks finished"
             )
         }.invokeOnCompletion {
