@@ -1226,21 +1226,6 @@ object CoroutineUtils {
 
     }
 
-
-
-
-    fun exceptionInCoroutineScopeWithSupervisorJobAsContextAsParentInLaunch() {
-    }
-
-    fun exceptionInCoroutineScopeWithSupervisorJobAsContextAsParentInAsync() {
-    }
-
-    fun exceptionInCoroutineScopeWithSupervisorJobAsContextAsChildInLaunch() {
-    }
-
-    fun exceptionInCoroutineScopeWithSupervisorJobAsContextAsChildInAsync() {
-    }
-
     // As we are launching separate supervisor scopes, they will not be affected by the parent coroutine crashing as they are not inheriting the parent coroutine context
     // but a supervisorJob
     fun exceptionInParentCoroutineScopeBlockLaunchingSeparateSupervisorScopes0() {
@@ -4001,59 +3986,6 @@ object CoroutineUtils {
             }
         }
     }
-
-    /** Important considerations
-     *
-     * First Function: exceptionInChildSupervisorScopeLaunchedInsideALaunchedCoroutineScope0()
-     * In this function:
-     *
-     * Parent Coroutine: A coroutine is launched with a custom name "launch" and an exception handler.
-     *
-     * Child Coroutines: Three child coroutines (child1, child2, child3) are launched using customSupervisorScope.
-     *
-     * Exception Handling:
-     *
-     * child2 throws an IllegalStateException.
-     *
-     * child1 and child3 continue running because they are in a supervisor scope.
-     *
-     * Final Log: The final log statement is printed because the parent coroutine and supervisor scope handle the exception without terminating.
-     *
-     * Second Function: exceptionInChildSupervisorScopeLaunchedInsideALaunchedCoroutineScope1()
-     * In this function:
-     *
-     * Parent Coroutine: A coroutine is launched with a custom name "launch" and an exception handler.
-     *
-     * Custom Supervisor Scope: Inside the parent coroutine, a customSupervisorScope is launched.
-     *
-     * Child Coroutines: Three child coroutines (child1, child2, child3) are launched within the customSupervisorScope.
-     *
-     * Exception Handling:
-     *
-     * child2 throws an IllegalStateException, which cancels both child2 and child3 because they inherit the parent context.
-     *
-     * child1 continues running.
-     *
-     * Final Log: The final log statement is printed because the parent coroutine and supervisor scope handle the exception without terminating.
-     *
-     * Third Function: exceptionInChildSupervisorScopeLaunchedInsideALaunchedCoroutineScope2()
-     * In this function:
-     *
-     * Parent Coroutine: A coroutine is launched with a custom name "launch" and an exception handler.
-     *
-     * Nested Supervisor Scopes: Inside the parent coroutine, a customSupervisorScope is launched, and within it, each child coroutine (child1, child2, child3) is launched using a separate customSupervisorScope.
-     *
-     * Exception Handling:
-     *
-     * child2 throws an IllegalStateException.
-     *
-     * This exception is not handled within the inner customSupervisorScope, causing the entire block to terminate.
-     *
-     * Final Log: The final log statement is not printed because the unhandled exception in child2 causes the termination of the entire customSupervisorScope block, skipping the remaining code.
-     *
-     * Conclusion
-     * The key difference in the third function is the use of nested SupervisorScope. When an exception occurs in child2, it propagates and crashes the entire customSupervisorScope block due to unhandled exception propagation. This is why the final log statement is not printed.
-     */
 
     // supervisorScope suspends the block and waits for children to complete
     fun exceptionInChildSupervisorScopeLaunchedInsideAsyncCoroutineScope3() {

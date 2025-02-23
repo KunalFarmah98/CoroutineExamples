@@ -101,7 +101,7 @@ fun CoroutineExamples(modifier: Modifier = Modifier) {
         }) {
             Text(modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center, text = "async inside async")
         }
-        Spacer(Modifier.height(10.dp))
+        Spacer(Modifier.height(20.dp))
         Button(modifier = Modifier
             .fillMaxWidth()
             .size(70.dp), onClick  = {
@@ -109,7 +109,7 @@ fun CoroutineExamples(modifier: Modifier = Modifier) {
         }) {
             Text(modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center, text = "runBlocking")
         }
-        Spacer(Modifier.height(10.dp))
+        Spacer(Modifier.height(20.dp))
         Button(modifier = Modifier
             .fillMaxWidth()
             .size(70.dp), onClick  = {
@@ -119,7 +119,7 @@ fun CoroutineExamples(modifier: Modifier = Modifier) {
         }) {
             Text(modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center, text = "coroutineScope")
         }
-        Spacer(Modifier.height(10.dp))
+        Spacer(Modifier.height(20.dp))
         Button(modifier = Modifier
             .fillMaxWidth()
             .size(70.dp), onClick  = {
@@ -129,7 +129,7 @@ fun CoroutineExamples(modifier: Modifier = Modifier) {
         }) {
             Text(modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center, text = "supervisorScope")
         }
-        Spacer(Modifier.height(10.dp))
+        Spacer(Modifier.height(20.dp))
         Button(modifier = Modifier
             .fillMaxWidth()
             .size(70.dp), onClick  = {
@@ -165,7 +165,7 @@ fun CoroutineExamples(modifier: Modifier = Modifier) {
         }) {
             Text(modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center, text = "cancellation in async in supervisorScope")
         }
-        Spacer(Modifier.height(10.dp))
+        Spacer(Modifier.height(20.dp))
         Button(modifier = Modifier
             .fillMaxWidth()
             .size(70.dp), onClick  = {
@@ -181,7 +181,7 @@ fun CoroutineExamples(modifier: Modifier = Modifier) {
         }) {
             Text(modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center, text = "exception in coroutineScope as async parent")
         }
-        Spacer(Modifier.height(10.dp))
+        Spacer(Modifier.height(20.dp))
         Button(modifier = Modifier
             .fillMaxWidth()
             .size(70.dp), onClick  = {
@@ -197,7 +197,7 @@ fun CoroutineExamples(modifier: Modifier = Modifier) {
         }) {
             Text(modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center, text = "exception in supervisorJob as async parent")
         }
-        Spacer(Modifier.height(10.dp))
+        Spacer(Modifier.height(20.dp))
         Button(modifier = Modifier
             .fillMaxWidth()
             .size(70.dp), onClick  = {
@@ -213,7 +213,7 @@ fun CoroutineExamples(modifier: Modifier = Modifier) {
         }) {
             Text(modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center, text = "exception in coroutineScope children via async")
         }
-        Spacer(Modifier.height(10.dp))
+        Spacer(Modifier.height(20.dp))
         Button(modifier = Modifier
             .fillMaxWidth()
             .size(70.dp), onClick  = {
@@ -229,7 +229,7 @@ fun CoroutineExamples(modifier: Modifier = Modifier) {
         }) {
             Text(modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center, text = "exception in coroutineScope async children via async")
         }
-        Spacer(Modifier.height(10.dp))
+        Spacer(Modifier.height(20.dp))
         Button(modifier = Modifier
             .fillMaxWidth()
             .size(70.dp), onClick  = {
@@ -256,7 +256,7 @@ fun CoroutineExamples(modifier: Modifier = Modifier) {
         }) {
             Text(modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center, text = "exception in superVisorScope as child in async")
         }
-        Spacer(Modifier.height(10.dp))
+        Spacer(Modifier.height(20.dp))
         Button(modifier = Modifier
             .fillMaxWidth()
             .size(70.dp), onClick  = {
@@ -272,7 +272,7 @@ fun CoroutineExamples(modifier: Modifier = Modifier) {
         }) {
             Text(modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center, text = "exception in superVisorScope children via async")
         }
-        Spacer(Modifier.height(10.dp))
+        Spacer(Modifier.height(20.dp))
         Button(modifier = Modifier
             .fillMaxWidth()
             .size(70.dp), onClick  = {
@@ -1054,49 +1054,5 @@ fun CoroutineExamples(modifier: Modifier = Modifier) {
             Text(modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center, text = "case 7: separate async with exception inside its own supervisorScope nested in an async supervisorScope")
         }
         Spacer(Modifier.height(20.dp))
-
-
-
-        Spacer(Modifier.height(10.dp))
-        Button(modifier = Modifier
-            .fillMaxWidth()
-            .size(70.dp), onClick  = {
-            CoroutineUtils.exceptionInCoroutineScopeWithSupervisorJobAsContextAsParentInLaunch()
-        }) {
-            Text(modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center, text = "exception in coroutineScope with supervisorJob as context as parent in launch")
-        }
-        Spacer(Modifier.height(10.dp))
-        Button(modifier = Modifier
-            .fillMaxWidth()
-            .size(70.dp), onClick  = {
-            CoroutineUtils.exceptionInCoroutineScopeWithSupervisorJobAsContextAsParentInLaunch()
-        }) {
-            Text(modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center, text = "exception in coroutineScope with supervisorJob as context as parent in launch")
-        }
-        Spacer(Modifier.height(10.dp))
-        Button(modifier = Modifier
-            .fillMaxWidth()
-            .size(70.dp), onClick  = {
-            CoroutineUtils.exceptionInCoroutineScopeWithSupervisorJobAsContextAsParentInAsync()
-        }) {
-            Text(modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center, text = "exception in coroutineScope with supervisorJob as context as parent in async")
-        }
-        Spacer(Modifier.height(10.dp))
-        Button(modifier = Modifier
-            .fillMaxWidth()
-            .size(70.dp), onClick  = {
-            CoroutineUtils.exceptionInCoroutineScopeWithSupervisorJobAsContextAsChildInLaunch()
-        }) {
-            Text(modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center, text = "exception in coroutineScope with supervisorJob as context as child in launch")
-        }
-        Spacer(Modifier.height(10.dp))
-        Button(modifier = Modifier
-            .fillMaxWidth()
-            .size(70.dp), onClick  = {
-            CoroutineUtils.exceptionInCoroutineScopeWithSupervisorJobAsContextAsChildInAsync()
-        }) {
-            Text(modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center, text = "exception in coroutineScope with supervisorJob as context as child in async")
-        }
-        Spacer(Modifier.height(10.dp))
     }
 }
