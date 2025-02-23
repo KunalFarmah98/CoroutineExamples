@@ -92,6 +92,27 @@ The file provides several case studies (functions) that illustrate the above con
 5. **Check for Jobs:** check how each coroutine has a specific job, and how they are related to their parent's job.
 6. **Follow the Log statements**: each function logs actions to the console, making it easier to understand the order of events.
 
+## A look into the examples available in the app
+
+<p vspace = "20" align="center" >
+ <img width="190" height="350" src="https://github.com/KunalFarmah98/CoroutineExamples/blob/main/app/src/main/res/raw/s1.png"/>
+ <img width="190" height="350" src="https://github.com/KunalFarmah98/CoroutineExamples/blob/main/app/src/main/res/raw/s2.png"/>
+ <img width="190" height="350" src="https://github.com/KunalFarmah98/CoroutineExamples/blob/main/app/src/main/res/raw/s3.png"/>
+ <img width="190" height="350" src="https://github.com/KunalFarmah98/CoroutineExamples/blob/main/app/src/main/res/raw/s4.png"/>
+</p>
+<p vspace = "20" align="center" >
+ <img width="190" height="350" src="https://github.com/KunalFarmah98/CoroutineExamples/blob/main/app/src/main/res/raw/s5.png"/>
+ <img width="190" height="350" src="https://github.com/KunalFarmah98/CoroutineExamples/blob/main/app/src/main/res/raw/s6.png"/>
+ <img width="190" height="350" src="https://github.com/KunalFarmah98/CoroutineExamples/blob/main/app/src/main/res/raw/s7.png"/>
+ <img width="190" height="350" src="https://github.com/KunalFarmah98/CoroutineExamples/blob/main/app/src/main/res/raw/s8.png"/>
+</p>
+<p vspace = "20" align="center" >
+ <img width="190" height="350" src="https://github.com/KunalFarmah98/CoroutineExamples/blob/main/app/src/main/res/raw/s9.png"/>
+ <img width="190" height="350" src="https://github.com/KunalFarmah98/CoroutineExamples/blob/main/app/src/main/res/raw/s10.png"/>
+ <img width="190" height="350" src="https://github.com/KunalFarmah98/CoroutineExamples/blob/main/app/src/main/res/raw/s11.png"/>
+ <img width="190" height="350" src="https://github.com/KunalFarmah98/CoroutineExamples/blob/main/app/src/main/res/raw/s12.png"/>
+</p>
+
 ## Further Resources
 
 *   [Kotlin Coroutines Documentation](https://kotlinlang.org/docs/coroutines-overview.html)
