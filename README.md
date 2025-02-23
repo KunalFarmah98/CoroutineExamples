@@ -91,7 +91,7 @@ The file provides several case studies (functions) that illustrate the above con
 3.  **Look for Dispatcher Usage:** See how different dispatchers are used for different types of work.
 4.  **Identify Exception Handling:** Pay attention to `try-catch` blocks and the use of `CoroutineExceptionHandler`.
 5. **Check for Jobs:** check how each coroutine has a specific job, and how they are related to their parent's job.
-6. **Follow the Log statements**: each function logs actions to the console, making it easier to understand the order of events.
+6. **Follow the Log statements**: each function logs actions to the console with the tag "CoroutineUtils `the case you are executing`", making it easier to understand the order of events.
 7. **Uncomment commented code** to check changes in behaviors of the code.
 
 ## A look into the examples available in the app
