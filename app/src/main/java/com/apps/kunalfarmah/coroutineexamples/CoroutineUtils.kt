@@ -3243,7 +3243,7 @@ object CoroutineUtils {
                     }
                 }
                  // this will have no affect as the children as cancelled
-                  child2.await()
+                 // child2.await()
             }
             delay(9000)
             Log.d(
@@ -3455,7 +3455,7 @@ object CoroutineUtils {
                     }
                 }
                 // uncomment to catch exception, child 3 will also get cancelled as parent will get cancelled
-                child2.await()
+                // child2.await()
             }
 
             Log.d(
