@@ -78,10 +78,11 @@ The `CoroutineUtils.kt` file primarily explores the following key coroutine conc
 
 The file provides several case studies (functions) that illustrate the above concepts in different combinations:
 
-*   `exceptionInChildSupervisorScopeLaunchedInsideAsyncCoroutineScope`: demonstrate how supervisor scopes can be used to prevent crashes, and handle errors independently.
-*   `exceptionInChildSupervisorScopeLaunchedInsideAsyncCoroutineScope2`: Demonstrate how `customSupervisorScope` can be used to create custom supervisorScope.
-*   `exceptionInChildSupervisorScopeLaunchedInsideAsyncCoroutineScope3`: Demonstrate how to use `supervisorScope` with `launch` blocks and structured concurrency.
-*   `exceptionInChildSupervisorScopeLaunchedInsideAsyncCoroutineScope4`: show how using the suspending `supervisorScope` function in a synchronous way affect the flow of the code.
+*  How supervisor scopes can be used to prevent crashes, and handle errors independently.
+*  How `customSupervisorScope` can be used to create custom supervisorScope.
+*  How to use `supervisorScope` with `launch` blocks and structured concurrency.
+*   How using the suspending `supervisorScope` function in a synchronous way affect the flow of the code.
+
 
 **How to Explore the Code:**
 
@@ -91,6 +92,7 @@ The file provides several case studies (functions) that illustrate the above con
 4.  **Identify Exception Handling:** Pay attention to `try-catch` blocks and the use of `CoroutineExceptionHandler`.
 5. **Check for Jobs:** check how each coroutine has a specific job, and how they are related to their parent's job.
 6. **Follow the Log statements**: each function logs actions to the console, making it easier to understand the order of events.
+7. **Uncomment commented code** to check changes in behaviors of the code.
 
 ## A look into the examples available in the app
 
